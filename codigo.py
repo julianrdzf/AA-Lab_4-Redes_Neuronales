@@ -1,15 +1,26 @@
 # -*- coding: utf-8 -*-
 
 #%%
-
-#Visualización de datos
+#Librerías
 
 import torchvision
 import torchvision.transforms as transforms
 from torchvision.datasets import FashionMNIST
 import matplotlib.pyplot as plt
 import random
-import matplotlib.pyplot as plt
+
+import numpy as np
+import torch
+import torch.nn as nn
+import torch.optim as optim
+from torch.utils.data import DataLoader
+
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix, ConfusionMatrixDisplay, classification_report
+
+
+#%%
+#Visualización de datos
+
 
 # Define la transformación de datos para FashionMNIST (normalización y escalado)
 transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,))])
@@ -36,20 +47,10 @@ plt.imshow(image[0], cmap='gray')
 plt.title(f'Etiqueta: {class_name}')
 plt.show()
 
-#%%
-#Librerías
 
-import numpy as np
-import torch
-import torch.nn as nn
-import torch.optim as optim
-import torchvision
-import torchvision.transforms as transforms
-from torchvision.datasets import FashionMNIST
-from torch.utils.data import DataLoader
 
 #%%
-#Diseño de la red, enternamiento y evaluación
+#Carga de datos
 
 # Definir la transformación de datos para FashionMNIST (normalización y escalado)
 transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,))])
@@ -62,7 +63,12 @@ train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
 eval_dataset = FashionMNIST(root='./data', train=False, transform=transform, download=True)
 eval_loader = DataLoader(eval_dataset, batch_size=64, shuffle=False)
 
+#%%
+#a)
+#Diseño de la red, enternamiento y evaluación
+
 # Definir la arquitectura de la red neuronal
+#Red con una capa oculta de 32 neuronas y función de activación sigmoide
 class Net(nn.Module):
     def __init__(self):
         super(Net, self).__init__()
@@ -82,10 +88,13 @@ net = Net()
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(net.parameters(), lr=0.01)
 
+#Array para guardar las pérdidas
 train_losses = []
 eval_losses = []
 
-# Entrenar la red neuronal
+#Falta agregar un array para gardar la evolución de la accuracy en el set de evaluación
+
+# Entrenar la red neuronal durante 10 épocas
 for epoch in range(10):
     running_loss = 0.0
     for i, data in enumerate(train_loader, 0):
@@ -114,6 +123,7 @@ for epoch in range(10):
             correct += (predicted == labels).sum().item()
     
     eval_losses.append(eval_loss / len(eval_loader))
+    #Hay que agregar la accuracy a un array
     
     print(f'Época {epoch + 1}, Pérdida en entrenamiento: {train_losses[-1]}, Pérdida en evaluación: {eval_losses[-1]}, Precisión en evaluación: {100 * correct / total}%')
 
@@ -138,8 +148,9 @@ plt.grid(True)
 plt.show()
 
 #%%
+#b.1)
 #Arquitectura diferente 1
-#Mas neuronas en la capa oculta
+#Mas neuronas (64) en la capa oculta
 # Definir la arquitectura de la red neuronal
 class Net(nn.Module):
     def __init__(self):
@@ -218,6 +229,7 @@ plt.show()
 
 
 #%%
+#b.2)
 #Arquitectura diferente 2
 #Otra capa oculta relu
 # Definir la arquitectura de la red neuronal
@@ -299,6 +311,7 @@ plt.grid(True)
 plt.show()
 
 #%%
+#b.3)
 #Arquitectura diferente 3
 #Capa oculta 128 relu, capa oculta 32 tanh
 # Definir la arquitectura de la red neuronal
@@ -381,30 +394,9 @@ plt.show()
 
 
 #%%
-
+#c)
 #Regularización
 
-# import torch
-# import torch.nn as nn
-# import torch.optim as optim
-# import torchvision.transforms as transforms
-# from torchvision.datasets import FashionMNIST
-# from torch.utils.data import DataLoader
-# import numpy as np
-# import matplotlib.pyplot as plt
-
-# Definir la transformación de datos para FashionMNIST (normalización y escalado)
-transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,))])
-
-# Descargar y cargar el conjunto de datos FashionMNIST para entrenamiento
-train_dataset = FashionMNIST(root='./data', train=True, transform=transform, download=True)
-train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
-
-# Descargar y cargar el conjunto de datos FashionMNIST para evaluación
-eval_dataset = FashionMNIST(root='./data', train=False, transform=transform, download=True)
-eval_loader = DataLoader(eval_dataset, batch_size=64, shuffle=False)
-
-# Definir la arquitectura de la red neuronal
 # Definir la arquitectura de la red neuronal
 class Net(nn.Module):
     def __init__(self):
@@ -495,33 +487,14 @@ plt.grid(True)
 plt.show()
 
 #%%
-
-#Accuracy, presicion, recall y F1
-
-# import torch
-# import torch.nn as nn
-# import torch.optim as optim
-# import torchvision.transforms as transforms
-# from torchvision.datasets import FashionMNIST
-# from torch.utils.data import DataLoader
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix, ConfusionMatrixDisplay, classification_report
+#d)
+#Evalúe su performance sobre el conjunto de evaluación utilizando
+# accuracy, precision, recall y medida F1 para cada una de las clases
+#Construya la matriz de confusión
 
 
-# Definir la transformación de datos para FashionMNIST (normalización y escalado)
-transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,))])
-
-# Descargar y cargar el conjunto de datos FashionMNIST para evaluación
-eval_dataset = FashionMNIST(root='./data', train=False, transform=transform, download=True)
-eval_loader = DataLoader(eval_dataset, batch_size=64, shuffle=False)
-
-
-# Crear una instancia de la red neuronal
-#net = Net()
-
-# Cargar el modelo entrenado
-#net.load_state_dict(torch.load('fashion_mnist_model_with_regularization.pth'))
-
-net.eval()  # Cambiar la red al modo de evaluación
+# Cambiar la red al modo de evaluación
+net.eval()  
 
 true_labels = []
 predicted_labels = []
@@ -561,23 +534,8 @@ print(classification_report(true_labels, predicted_labels, target_names=class_na
 
 
 #%%
+#e)
 #Obtener las 10 instancias más difíciles usando entropía
-
-
-# Definir la transformación de datos para FashionMNIST (normalización y escalado)
-transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,))])
-
-# Descargar y cargar el conjunto de datos FashionMNIST para evaluación
-eval_dataset = FashionMNIST(root='./data', train=False, transform=transform, download=True)
-eval_loader = DataLoader(eval_dataset, batch_size=1, shuffle=False)
-
-
-
-# Crear una instancia de la red neuronal
-#net = Net()
-
-# Cargar el modelo entrenado
-#net.load_state_dict(torch.load('fashion_mnist_model.pth'))
 
 # Cambiar la red al modo de evaluación
 net.eval()  
@@ -601,6 +559,7 @@ print("Índices de las 10 muestras más difíciles:", difficult_samples_indices)
 
 #%%
 #Graficar los más dificiles
+
 figure = plt.figure(figsize=(8, 8))
 cols, rows = 3, 3
 for i in range(1, cols * rows + 1):
@@ -618,7 +577,6 @@ plt.show()
 #Graficar los más fáciles
 easy_samples_indices = np.argsort(entropies, axis=0)[:10]
 
-#Graficar aleatorios
 figure = plt.figure(figsize=(8, 8))
 cols, rows = 3, 3
 for i in range(1, cols * rows + 1):
