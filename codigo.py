@@ -409,13 +409,16 @@ eval_loader = DataLoader(eval_dataset, batch_size=64, shuffle=False)
 class Net(nn.Module):
     def __init__(self):
         super(Net, self).__init__()
-        self.fc1 = nn.Linear(28 * 28, 32)
-        self.fc2 = nn.Linear(32, 10)
+        self.fc1 = nn.Linear(28 * 28, 128)  # Capa de entrada (28x28 píxeles) a capa oculta
+        self.fc2 = nn.Linear(128, 32)  # Capa oculta a capa de salida
+        self.fc3 = nn.Linear(32, 10)
 
     def forward(self, x):
-        x = x.view(-1, 28 * 28)
-        x = torch.sigmoid(self.fc1(x))
-        x = self.fc2(x)
+        x = x.view(-1, 28 * 28)  # Aplanar la imagen
+        x = torch.relu(self.fc1(x))  # Aplicar relu a la capa oculta
+        x = self.fc2(x)  # Capa oculta
+        x = torch.tanh(x) # Aplicar tanh a la capa oculta
+        x = self.fc3(x)  # Capa de salida
         return x
 
 # Crear una instancia de la red neuronal
