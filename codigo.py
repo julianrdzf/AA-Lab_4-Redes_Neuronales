@@ -642,7 +642,7 @@ net.eval()
 entropies = []
 
 # Calcular la entropía para cada instancia en el conjunto de evaluación
-for i, data in enumerate(eval_loader, 0):
+for i, data in enumerate(eval_dataset, 0):
     inputs, _ = data
     outputs = net(inputs)
     softmax = torch.nn.functional.softmax(outputs, dim=1)
@@ -670,7 +670,8 @@ for i in range(1, cols * rows + 1):
     plt.title(class_names[label])
     plt.axis("off")
     plt.imshow(image[0], cmap='gray') 
-    
+
+figure.suptitle('Instancias más difíciles de clasificar')      
 plt.show()
 
 #Graficar los más fáciles
@@ -687,7 +688,8 @@ for i in range(1, cols * rows + 1):
     plt.title(class_names[label])
     plt.axis("off")
     plt.imshow(image[0], cmap='gray') 
-    
+
+figure.suptitle('Instancias más fáciles de clasificar')    
 plt.show()
 
 #Graficar aleatorios
@@ -702,6 +704,7 @@ for i in range(1, cols * rows + 1):
     plt.title(class_names[label])
     plt.axis("off")
     plt.imshow(image[0], cmap='gray') 
-    
+
+figure.suptitle('Instancias aleatorias')    
 plt.show()
 
