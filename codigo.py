@@ -91,8 +91,7 @@ optimizer = optim.SGD(net.parameters(), lr=0.01)
 #Array para guardar las pérdidas
 train_losses = []
 eval_losses = []
-
-#Falta agregar un array para gardar la evolución de la accuracy en el set de evaluación
+accuracies = []
 
 # Entrenar la red neuronal durante 10 épocas
 for epoch in range(10):
@@ -123,7 +122,8 @@ for epoch in range(10):
             correct += (predicted == labels).sum().item()
     
     eval_losses.append(eval_loss / len(eval_loader))
-    #Hay que agregar la accuracy a un array
+    accuracies.append(100 * correct / total)
+    
     
     print(f'Época {epoch + 1}, Pérdida en entrenamiento: {train_losses[-1]}, Pérdida en evaluación: {eval_losses[-1]}, Precisión en evaluación: {100 * correct / total}%')
 
@@ -145,6 +145,24 @@ plt.ylabel('Pérdida')
 plt.legend()
 plt.title('Pérdida en Entrenamiento y Evaluación')
 plt.grid(True)
+plt.show()
+
+# Crear un gráfico con dos escalas en el eje y
+fig, ax1 = plt.subplots(figsize=(10, 5))
+ax1.plot(range(1, len(train_losses) + 1), train_losses, label="Entrenamiento", color='blue')
+ax1.plot(range(1, len(eval_losses) + 1), eval_losses, label="Evaluación", color='red')
+ax1.set_xlabel('Época')
+ax1.set_ylabel('Pérdida', color='black')
+
+ax2 = ax1.twinx()
+ax2.plot(range(1, len(accuracies) + 1), accuracies, label="Precisión en Evaluación", color='green')
+ax2.set_ylabel('Precisión (%)', color='black')
+
+lines, labels = ax1.get_legend_handles_labels()
+lines2, labels2 = ax2.get_legend_handles_labels()
+ax2.legend(lines + lines2, labels + labels2, loc="center right")
+
+plt.title('Pérdida y Precisión en Evaluación')
 plt.show()
 
 #%%
@@ -173,6 +191,8 @@ optimizer = optim.SGD(net.parameters(), lr=0.01)
 
 train_losses = []
 eval_losses = []
+accuracies = []
+
 
 # Entrenar la red neuronal
 for epoch in range(10):
@@ -203,6 +223,7 @@ for epoch in range(10):
             correct += (predicted == labels).sum().item()
     
     eval_losses.append(eval_loss / len(eval_loader))
+    accuracies.append(100 * correct / total)
     
     print(f'Época {epoch + 1}, Pérdida en entrenamiento: {train_losses[-1]}, Pérdida en evaluación: {eval_losses[-1]}, Precisión en evaluación: {100 * correct / total}%')
 
@@ -222,8 +243,26 @@ plt.plot(range(1, len(eval_losses) + 1), eval_losses, label="Evaluación")
 plt.xlabel('Época')
 plt.ylabel('Pérdida')
 plt.legend()
-plt.title('Pérdida en Entrenamiento y Evaluación')
+plt.title('Pérdida en Entrenamiento y Evaluación Arquitectura 1')
 plt.grid(True)
+plt.show()
+
+# Crear un gráfico con dos escalas en el eje y
+fig, ax1 = plt.subplots(figsize=(10, 5))
+ax1.plot(range(1, len(train_losses) + 1), train_losses, label="Entrenamiento", color='blue')
+ax1.plot(range(1, len(eval_losses) + 1), eval_losses, label="Evaluación", color='red')
+ax1.set_xlabel('Época')
+ax1.set_ylabel('Pérdida', color='black')
+
+ax2 = ax1.twinx()
+ax2.plot(range(1, len(accuracies) + 1), accuracies, label="Precisión en Evaluación", color='green')
+ax2.set_ylabel('Precisión (%)', color='black')
+
+lines, labels = ax1.get_legend_handles_labels()
+lines2, labels2 = ax2.get_legend_handles_labels()
+ax2.legend(lines + lines2, labels + labels2, loc="center right")
+
+plt.title('Pérdida y Precisión en Evaluación Arquitectura 1')
 plt.show()
 
 
@@ -257,6 +296,7 @@ optimizer = optim.SGD(net.parameters(), lr=0.01)
 
 train_losses = []
 eval_losses = []
+accuracies = []
 
 # Entrenar la red neuronal
 for epoch in range(10):
@@ -287,6 +327,7 @@ for epoch in range(10):
             correct += (predicted == labels).sum().item()
     
     eval_losses.append(eval_loss / len(eval_loader))
+    accuracies.append(100 * correct / total)
     
     print(f'Época {epoch + 1}, Pérdida en entrenamiento: {train_losses[-1]}, Pérdida en evaluación: {eval_losses[-1]}, Precisión en evaluación: {100 * correct / total}%')
 
@@ -306,8 +347,26 @@ plt.plot(range(1, len(eval_losses) + 1), eval_losses, label="Evaluación")
 plt.xlabel('Época')
 plt.ylabel('Pérdida')
 plt.legend()
-plt.title('Pérdida en Entrenamiento y Evaluación')
+plt.title('Pérdida en Entrenamiento y Evaluación Arquitectura 2')
 plt.grid(True)
+plt.show()
+
+# Crear un gráfico con dos escalas en el eje y
+fig, ax1 = plt.subplots(figsize=(10, 5))
+ax1.plot(range(1, len(train_losses) + 1), train_losses, label="Entrenamiento", color='blue')
+ax1.plot(range(1, len(eval_losses) + 1), eval_losses, label="Evaluación", color='red')
+ax1.set_xlabel('Época')
+ax1.set_ylabel('Pérdida', color='black')
+
+ax2 = ax1.twinx()
+ax2.plot(range(1, len(accuracies) + 1), accuracies, label="Precisión en Evaluación", color='green')
+ax2.set_ylabel('Precisión (%)', color='black')
+
+lines, labels = ax1.get_legend_handles_labels()
+lines2, labels2 = ax2.get_legend_handles_labels()
+ax2.legend(lines + lines2, labels + labels2, loc="center right")
+
+plt.title('Pérdida y Precisión en Evaluación Arquitectura 2')
 plt.show()
 
 #%%
@@ -339,6 +398,7 @@ optimizer = optim.SGD(net.parameters(), lr=0.01)
 
 train_losses = []
 eval_losses = []
+accuracies = []
 
 # Entrenar la red neuronal
 for epoch in range(10):
@@ -369,6 +429,7 @@ for epoch in range(10):
             correct += (predicted == labels).sum().item()
     
     eval_losses.append(eval_loss / len(eval_loader))
+    accuracies.append(100 * correct / total)
     
     print(f'Época {epoch + 1}, Pérdida en entrenamiento: {train_losses[-1]}, Pérdida en evaluación: {eval_losses[-1]}, Precisión en evaluación: {100 * correct / total}%')
 
@@ -388,8 +449,26 @@ plt.plot(range(1, len(eval_losses) + 1), eval_losses, label="Evaluación")
 plt.xlabel('Época')
 plt.ylabel('Pérdida')
 plt.legend()
-plt.title('Pérdida en Entrenamiento y Evaluación')
+plt.title('Pérdida en Entrenamiento y Evaluación Arquitectura 3')
 plt.grid(True)
+plt.show()
+
+# Crear un gráfico con dos escalas en el eje y
+fig, ax1 = plt.subplots(figsize=(10, 5))
+ax1.plot(range(1, len(train_losses) + 1), train_losses, label="Entrenamiento", color='blue')
+ax1.plot(range(1, len(eval_losses) + 1), eval_losses, label="Evaluación", color='red')
+ax1.set_xlabel('Época')
+ax1.set_ylabel('Pérdida', color='black')
+
+ax2 = ax1.twinx()
+ax2.plot(range(1, len(accuracies) + 1), accuracies, label="Precisión en Evaluación", color='green')
+ax2.set_ylabel('Precisión (%)', color='black')
+
+lines, labels = ax1.get_legend_handles_labels()
+lines2, labels2 = ax2.get_legend_handles_labels()
+ax2.legend(lines + lines2, labels + labels2, loc="center right")
+
+plt.title('Pérdida y Precisión en Evaluación Arquitectura 3')
 plt.show()
 
 
@@ -426,6 +505,7 @@ optimizer = optim.SGD(net.parameters(), lr=0.01, weight_decay=weight_decay)
 # Listas para almacenar los valores de pérdida en cada época
 train_losses = []
 eval_losses = []
+accuracies = []
 
 # Entrenar la red neuronal
 for epoch in range(10):
@@ -463,6 +543,7 @@ for epoch in range(10):
             correct += (predicted == labels).sum().item()
     
     eval_losses.append(eval_loss / len(eval_loader))
+    accuracies.append(100 * correct / total)
     
     print(f'Época {epoch + 1}, Pérdida en entrenamiento: {train_losses[-1]}, Pérdida en evaluación: {eval_losses[-1]}, Precisión en evaluación: {100 * correct / total}%')
 
@@ -482,8 +563,26 @@ plt.plot(range(1, len(eval_losses) + 1), eval_losses, label="Evaluación")
 plt.xlabel('Época')
 plt.ylabel('Pérdida')
 plt.legend()
-plt.title('Pérdida en Entrenamiento y Evaluación')
+plt.title('Pérdida en Entrenamiento y Evaluación - Regularización')
 plt.grid(True)
+plt.show()
+
+# Crear un gráfico con dos escalas en el eje y
+fig, ax1 = plt.subplots(figsize=(10, 5))
+ax1.plot(range(1, len(train_losses) + 1), train_losses, label="Entrenamiento", color='blue')
+ax1.plot(range(1, len(eval_losses) + 1), eval_losses, label="Evaluación", color='red')
+ax1.set_xlabel('Época')
+ax1.set_ylabel('Pérdida', color='black')
+
+ax2 = ax1.twinx()
+ax2.plot(range(1, len(accuracies) + 1), accuracies, label="Precisión en Evaluación", color='green')
+ax2.set_ylabel('Precisión (%)', color='black')
+
+lines, labels = ax1.get_legend_handles_labels()
+lines2, labels2 = ax2.get_legend_handles_labels()
+ax2.legend(lines + lines2, labels + labels2, loc="center right")
+
+plt.title('Pérdida y Precisión en Evaluación - Regularización')
 plt.show()
 
 #%%
