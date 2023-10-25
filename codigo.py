@@ -44,7 +44,7 @@ image = image.numpy()
 # Desescala la imagen y la muestra
 image = image / 2 + 0.5  # Desescalamos la imagen
 plt.imshow(image[0], cmap='gray')
-plt.title(f'Etiqueta: {class_name}')
+plt.title(f'{class_name}')
 plt.show()
 
 
